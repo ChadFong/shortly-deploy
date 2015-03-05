@@ -6,8 +6,11 @@ module.exports = function(grunt) {
     concat: {
       dist:{
         src: [
-          'public/client/*.js',
-          'public/lib/*.js'
+          'public/lib/handlebars.js',
+          'public/lib/underscore.js',
+          'public/lib/jquery.js',
+          'public/lib/backbone.js',
+          'public/client/*.js'
         ],
         dest: 'public/dist/production.js'
       }
@@ -36,20 +39,29 @@ module.exports = function(grunt) {
     },
 
     jshint: {
-      files: [
-        // Add filespec list here
-      ],
       options: {
-        force: 'true',
         jshintrc: '.jshintrc',
         ignores: [
           'public/lib/**/*.js',
           'public/dist/**/*.js'
         ]
-      }
+      },
+      files: [
+        // Add filespec list here
+        'public/client/*.js'
+      ]
     },
 
     cssmin: {
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'public',
+          src: ['*.css', '!*.min.css'],
+          dest: 'public/dist',
+          ext: '.min.css'
+        }]
+      }
     },
 
     watch: {
@@ -106,7 +118,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'concat', 'uglify'
+    'jshint','mochaTest','concat', 'uglify', 'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -119,7 +131,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
     // add your deploy tasks here
-    'build'
+    'build', 'upload'
   ]);
 
 
