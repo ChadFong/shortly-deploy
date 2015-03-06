@@ -2,7 +2,8 @@ var db = require('../config');
 var crypto = require('crypto');
 var mongoose = require('mongoose');
 
-exports = mongoose.model('url', db.urlSchema);
+var Url = mongoose.model('url', db.urlSchema);
+module.exports = Url;
 
 // var Link = db.model('Link', urlSchema,
 //   {

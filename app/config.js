@@ -11,21 +11,17 @@ db.once('open', function(callback){
 
 // Create URL Links schema
 exports.urlSchema = new Schema({
-  _id: Schema.Types.ObjectId,
   url: String,
   base_url: String,
   code: String,
   title: String,
-  visits: Number,
-  timestamps: { type: Date, default: Date.now}
+  visits: Number
 });
 
 // Create Users schema
 exports.usersSchema = new Schema({
-  _id: Schema.Types.ObjectId,
   username: String,
-  password: String,
-  timestamps: { type: Date, default: Date.now}
+  password: String
 });
 
 
