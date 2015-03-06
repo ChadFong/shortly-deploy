@@ -6,6 +6,21 @@ var mongoose = require('mongoose');
 var User = mongoose.model('user', db.usersSchema);
 module.exports = User;
 
+User.prototype.comparePassword = function(attemptedPassword, callback) {
+  bcrypt.compare(attemptedPassword, this.password, function(err, isMatch) {
+    callback(isMatch);
+  });
+},
+
+db.usersSchema.pre('save', function(next){
+  var cipher = Promise.promisify(bcrypt.hash);
+  return cipher(this.password, null, null).bind(this)
+    .then(function(hash) {
+      this.password = hash;
+      next();
+  });
+});
+
 // var User = db.Model.extend({
   // tableName: 'users',
   // hasTimestamps: true,
@@ -19,7 +34,7 @@ module.exports = User;
   // },
   // hashPassword: function(){
   //   var cipher = Promise.promisify(bcrypt.hash);
-  //   return cipher(this.get('password'), null, null).bind(this)
+  //   return cipher(this.get('hashPasswordsword'), null, null).bind(this)
   //     .then(function(hash) {
   //       this.set('password', hash);
   //     });
