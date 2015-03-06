@@ -6,10 +6,6 @@ module.exports = function(grunt) {
     concat: {
       dist:{
         src: [
-          'public/lib/handlebars.js',
-          'public/lib/underscore.js',
-          'public/lib/jquery.js',
-          'public/lib/backbone.js',
           'public/client/*.js'
         ],
         dest: 'public/dist/production.js'
